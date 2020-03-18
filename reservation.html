@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <script src="https://kit.fontawesome.com/402b524d37.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Reservation</title>
+</head>
+<body>
+    <div class = "container">
+        <div class="jumbotron text-center">
+            <h1 class="display-4 "><i class="fab fa-gripfire"><strong>  Hot Restaurant</strong></i></h1>
+            <hr class="my-4">
+            <h4>Make Your Reservation</h4>
+            
+            <div class = "mt-5">
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="/tables" role="button"><i class="fa fa-table" aria-hidden="true"></i>  View Tables</a>
+                    <a href = "/index"><button type="button"  class="btn btn-light" style = "padding: 8px 16px; font-size: 20px"><i class="fas fa-home"></i></button></a>
+                </p>
+            </div>
+            
+        </div> 
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h6>Table Reservation</h6>
+                </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Name</label>
+                              <input type="" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputPassword1">Phone Number</label>
+                              <input type="" class="form-control" id="phoneNumber" placeholder="Enter phone number">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email</label>
+                                <input type="" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputPassword1">Unique ID</label>
+                                <input type="number" class="form-control" id="uniqueID" placeholder="Enter unique ID">
+                              </div>
+                            
+                            <button type="submit"  id = "submit" class="btn btn-primary">Submit</button>
+                          </form>  
+                    </div>
+            </div>
+    
+        </div>
+        <br>
+        <a href="/api/tables">API Table Link</a> |
+        <a href="/api/waitList">API Wait Link</a>
+
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- script to post request on submit button click -->
+    <script type="text/javascript">
+        $("#submit").on("click", function(event) {
+          event.preventDefault();
+          var newReservation = {
+            name: $("#name").val().trim(),
+            phone: $("#phoneNumber").val().trim(),
+            email: $("#email").val().trim(),
+            id: $("#uniqueID").val().trim()
+          };
+          
+          $.post("/api/reservation", newReservation)
+            .then(function(data) {
+              console.log("reservation.html", data);
+              alert("Making reservation...");
+            });
+        });
+    </script>
+
+</body>
+</html>

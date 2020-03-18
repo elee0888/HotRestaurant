@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <script src="https://kit.fontawesome.com/402b524d37.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>View Table</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1 class="display-4 "><i class="fab fa-gripfire"><strong> Hot Restaurant</strong></i></h1>
+            <hr class="my-4">
+            <h4>Current Reservations and Waiting List</h4>
+            <div class="mt-5">
+                <p class="lead">
+                    <a class="btn btn-danger btn-lg" href="/reservation" role="button"><i class="fas fa-id-card"> Make
+                            Reservations</i></a>
+                    <a href="/"><button type="button" class="btn btn-light"
+                            style="padding: 8px 16px; font-size: 20px"><i class="fas fa-home"></i></button></a>
+                </p>
+            </div>
+
+        </div>
+        <div>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Current Reservations</h5>
+                </div>
+                <div class="reservationCard card-body">
+                    <div id="card1" class="card bg-light text-dark">
+                        <div class="card-body">
+                            <button type="button" class="resNumber btn btn-primary"
+                                style="padding: 8px 16px; font-size: 20px">1
+                            </button>
+                            <span>|</span>
+                            <span class="resID">Name</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Waiting List</h5>
+                </div>
+                <div class="reservationCard2 card-body">
+                    <div id="card2" class="card bg-light text-dark">
+                        <div class="card-body">
+                            <button type="button" class="resNumber btn btn-primary"
+                                style="padding: 8px 16px; font-size: 20px">1
+                            </button>
+                            <span>|</span>
+                            <span class="resID2">Name</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+            </div>
+        </div>
+        <br>
+        <p>Control Panel</p>
+        <a href="api/clear">Clear Table</a> |
+        <a href="api/tables">API Table Link</a> |
+        <a href="api/waitList">API Wait Link</a>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script>
+        $.ajax({
+            method: "GET",
+            url: "/api/tables"
+        }).then(
+            res => {
+                console.log(res)
+                res.forEach((element, value) => {
+                    if (value === 0) {
+                        $(".resID").text(element.id)
+                    } else {
+                        var newCard = $("#card1").clone();
+                        newCard.find(".resID").text(element.id)
+                        newCard.find(".resNumber").text(value + 1)
+                        newCard.appendTo(".reservationCard")
+                    }
+
+                });
+            }
+        ).then(() => {
+            $.ajax({
+                method: "GET",
+                url: "/api/waitList"
+            }).then(
+                res => {
+                    console.log(res)
+                    res.forEach((element, value) => {
+                        if (value === 0) {
+                            $(".resID2").text(element.id)
+                        } else {
+                            var newCard = $("#card2").clone();
+                            newCard.find(".resID2").text(element.id)
+                            newCard.find(".resNumber").text(value + 1)
+                            newCard.appendTo(".reservationCard2")
+                        }
+
+                    });
+                }
+            )
+        })
+
+    </script>
+</body>
+
+</html>
